@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Text } from "@chakra-ui/react";
+import { Flex, HStack } from "@chakra-ui/react";
 
 import ButtonLink from "../button/ButtonLink";
 import Copyright from "../button/Copyright";
