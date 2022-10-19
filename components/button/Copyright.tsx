@@ -1,4 +1,4 @@
-import { Flex, HStack, Link, Text } from "@chakra-ui/react";
+import { Flex, HStack, Text } from "@chakra-ui/react";
 
 function Copyright() {
   return (
