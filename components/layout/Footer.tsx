@@ -1,4 +1,4 @@
-import { Flex, HStack, Text } from "@chakra-ui/react";
+import { Box, Flex, HStack, Text } from "@chakra-ui/react";
 
 import ButtonLink from "../button/ButtonLink";
 import Copyright from "../button/Copyright";
@@ -6,13 +6,12 @@ import Copyright from "../button/Copyright";
 function Footer() {
   return (
     <Flex
-      borderTop="1px solid"
-      borderColor="blackAlpha.300"
       p={4}
       color="blackAlpha.600"
       fontSize="sm"
+      direction={{ base: "column", md: "row" }}
     >
-      <HStack spacing={8}>
+      <HStack spacing={8} mb={{ base: 8, md: 0 }}>
         <ButtonLink href="#" isExternal>
           About
         </ButtonLink>

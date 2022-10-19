@@ -11,14 +11,7 @@ import ButtonLink from "../button/ButtonLink";
 
 function Header() {
   return (
-    <Flex
-      justify="space-between"
-      borderBottom="1px solid"
-      borderColor="blackAlpha.300"
-      w="full"
-      px={4}
-      py={2}
-    >
+    <Flex justify="space-between" w="full" px={4} py={2}>
       <Flex maxHeight="56px">
         <Image h="48px" src="black_icon_transparent_background.png" />
         <Image h="full" src="black_text-logoname_transparent_background.png" />
