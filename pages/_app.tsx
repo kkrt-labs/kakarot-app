@@ -4,6 +4,7 @@ import { StarknetConfig } from "@starknet-react/core";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 
+import Layout from "../components/layout/Layout";
 import defaultSEOConfig from "../next-seo.config";
 
 function Kakarot({ Component, pageProps }: AppProps) {
@@ -11,7 +12,9 @@ function Kakarot({ Component, pageProps }: AppProps) {
     <ChakraProvider>
       <StarknetConfig>
         <DefaultSeo {...defaultSEOConfig} />
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </StarknetConfig>
     </ChakraProvider>
   );
