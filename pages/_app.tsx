@@ -1,15 +1,20 @@
 import "../styles/globals.css";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { StarknetConfig } from "@starknet-react/core";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 
 import Layout from "../components/layout/Layout";
 import defaultSEOConfig from "../next-seo.config";
+import customColors from "../styles/theme/colors";
+
+const theme = extendTheme({
+  colors: customColors,
+});
 
 function Kakarot({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <StarknetConfig>
         <DefaultSeo {...defaultSEOConfig} />
         <Layout>
