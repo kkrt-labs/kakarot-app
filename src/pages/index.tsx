@@ -3,6 +3,8 @@ import { ethers } from "ethers";
 import type { NextPage } from "next";
 import { useState } from "react";
 
+import { fetchAbi } from "../services/api.service";
+
 const FETCH_ABI_ENDPOINT =
   "https://api-goerli.etherscan.io/api?module=contract&action=getabi&address=";
 const ERC20_KAKAROT_ADDR = "0x3814EaBD9cf0E30e766d7cDaF911af6c56A7A5dA";
@@ -10,13 +12,13 @@ const ERC20_KAKAROT_ADDR = "0x3814EaBD9cf0E30e766d7cDaF911af6c56A7A5dA";
 const Home: NextPage = () => {
   const [bytecode, setBytecode] = useState<string | undefined>(undefined);
   const [abi, setAbi] = useState<string | undefined>(undefined);
-  const fetchABI = () => {
+  /* const fetchABI = () => {
     fetch(FETCH_ABI_ENDPOINT + ERC20_KAKAROT_ADDR)
       .then((response) => response.json())
       .then((data) => {
         setAbi(data.result);
       });
-  };
+  }; */
   const fetchBytecode = () => {
     ethers
       .getDefaultProvider("goerli")
@@ -24,7 +26,9 @@ const Home: NextPage = () => {
       .then(setBytecode);
   };
   const fetchData = () => {
-    fetchABI();
+    fetchAbi(ERC20_KAKAROT_ADDR, "goerli").then((abi) => {
+      setAbi(abi);
+    });
     fetchBytecode();
   };
   return (
