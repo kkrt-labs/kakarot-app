@@ -1,4 +1,4 @@
-import { Flex, Text, VStack } from "@chakra-ui/react";
+import { Text, VStack } from "@chakra-ui/react";
 import { useConnectors } from "@starknet-react/core";
 
 import BoxItem from "../BoxItem";
@@ -14,6 +14,7 @@ function ModalConnect({ isOpen, onClose }: Props) {
   return (
     <Modal title="Connect a wallet" isOpen={isOpen} onClose={onClose}>
       <VStack>
+        {/* Connectors */}
         {connectors.map((connector) => (
           <BoxItem
             key={`connector-${connector.id()}`}

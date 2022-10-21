@@ -9,6 +9,8 @@ import ButtonLink from "./ButtonLink";
 function ButtonConnect() {
   const { address } = useAccount();
   const [isOpen, setOpen] = useState<boolean>(false);
+
+  // Close the modal once account connected
   useEffect(() => {
     if (address) {
       setOpen(false);
