@@ -7,6 +7,7 @@ import {
   Switch,
 } from "@chakra-ui/react";
 
+import ButtonConnect from "../button/ButtonConnect";
 import ButtonLink from "../button/ButtonLink";
 
 function Header() {
@@ -23,7 +24,7 @@ function Header() {
             <ButtonLink href="#">Mainnet</ButtonLink>
           </FormLabel>
         </FormControl>
-        <ButtonLink href="#">Connect</ButtonLink>
+        <ButtonConnect />
       </HStack>
     </Flex>
   );
