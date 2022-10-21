@@ -2,30 +2,31 @@ import { useAccount } from "@starknet-react/core";
 import { useEffect, useState } from "react";
 
 import { cropAddress } from "../../utils/address-utils";
+import Menu from "../layout/menu/Menu";
 import ModalConnect from "../layout/modal/ModalConnect";
 
 import ButtonLink from "./ButtonLink";
 
 function ButtonConnect() {
   const { address } = useAccount();
-  const [isOpen, setOpen] = useState<boolean>(false);
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
   // Close the modal once account connected
   useEffect(() => {
     if (address) {
-      setOpen(false);
+      setModalOpen(false);
     }
   }, [address]);
   return (
     <>
       {!address ? (
-        <ButtonLink onClick={() => setOpen(true)} href="#">
+        <ButtonLink onClick={() => setModalOpen(true)} href="#">
           Connect
         </ButtonLink>
       ) : (
-        <ButtonLink href="#">{cropAddress(address)}</ButtonLink>
+        <Menu title={cropAddress(address)} />
       )}
-      <ModalConnect isOpen={isOpen} onClose={() => setOpen(false)} />
+      <ModalConnect isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
     </>
   );
 }
