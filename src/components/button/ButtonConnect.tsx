@@ -20,9 +20,7 @@ function ButtonConnect() {
   return (
     <>
       {!address ? (
-        <ButtonLink onClick={() => setModalOpen(true)} href="#">
-          Connect
-        </ButtonLink>
+        <ButtonLink onClick={() => setModalOpen(true)}>Connect</ButtonLink>
       ) : (
         <Menu title={cropAddress(address)} />
       )}
