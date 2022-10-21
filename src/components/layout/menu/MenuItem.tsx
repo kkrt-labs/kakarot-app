@@ -1,10 +1,11 @@
+import type { FlexProps } from "@chakra-ui/react";
 import { Box, Flex } from "@chakra-ui/react";
 
-interface Props {
-  children: string;
-  icon: string;
+interface Props extends FlexProps {
+  children: JSX.Element | string;
+  icon: any;
 }
-function Menu({ children, icon }: Props) {
+function MenuItem({ children, icon, ...rest }: Props) {
   return (
     <Flex
       cursor="pointer"
@@ -14,6 +15,7 @@ function Menu({ children, icon }: Props) {
       justifyContent="space-between"
       transition="all .2s ease-in"
       _hover={{ color: "blackAlpha.600" }}
+      {...rest}
     >
       <Box>{children}</Box>
       <Box>{icon}</Box>
@@ -21,4 +23,4 @@ function Menu({ children, icon }: Props) {
   );
 }
 
-export default Menu;
+export default MenuItem;

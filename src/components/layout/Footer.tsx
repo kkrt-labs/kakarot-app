@@ -1,5 +1,6 @@
 import { Flex, HStack } from "@chakra-ui/react";
 
+import { GITHUB_LINK } from "../../utils/links";
 import ButtonLink from "../button/ButtonLink";
 
 import Copyright from "./Copyright";
@@ -16,10 +17,7 @@ function Footer() {
         <ButtonLink href="#" isExternal>
           About
         </ButtonLink>
-        <ButtonLink
-          href="https://github.com/orgs/sayajin-labs/repositories"
-          isExternal
-        >
+        <ButtonLink href={GITHUB_LINK} isExternal>
           Github
         </ButtonLink>
         <ButtonLink href="#" isExternal>
