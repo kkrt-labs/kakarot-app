@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 
 import environment from "../environment";
 
-const { etherscanAPIKey } = environment;
+// const { etherscanAPIKey } = environment;
 
 export function fetchABI(
   contractAddress: string,
