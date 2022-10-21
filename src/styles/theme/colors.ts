@@ -14,6 +14,9 @@ const extendedColors: DeepPartial<
     100: "#ff826e",
     900: "#FF4343",
   },
+  success: {
+    500: "#46CE8D",
+  },
   primary: {
     500: "#46CE8D",
   },
