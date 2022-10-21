@@ -7,6 +7,7 @@ import {
   Switch,
 } from "@chakra-ui/react";
 
+import ButtonConnect from "../button/ButtonConnect";
 import ButtonLink from "../button/ButtonLink";
 
 function Header() {
@@ -18,12 +19,12 @@ function Header() {
       </Flex>
       <HStack spacing={4}>
         <FormControl display="flex" alignItems="center">
-          <Switch colorScheme="blackAlpha" id="chainId" />
+          <Switch disabled colorScheme="blackAlpha" id="chainId" />
           <FormLabel htmlFor="chainId" mb="0" ml={4}>
-            <ButtonLink href="#">Mainnet</ButtonLink>
+            <ButtonLink disabled>Testnet (Goerli)</ButtonLink>
           </FormLabel>
         </FormControl>
-        <ButtonLink href="#">Connect</ButtonLink>
+        <ButtonConnect />
       </HStack>
     </Flex>
   );
