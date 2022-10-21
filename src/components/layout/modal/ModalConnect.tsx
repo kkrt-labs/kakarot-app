@@ -24,7 +24,7 @@ function ModalConnect({ isOpen, onClose }: Props) {
         ))}
         {/* Disclaimer */}
         <BoxItem disabled>
-          <Text>
+          <Text fontSize="xs">
             By connecting a wallet, you agree to Sayajin Labs Terms of Service
             and acknowledge that you have read and understand the Sayajin Labs
             Protocol Disclaimer.

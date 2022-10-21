@@ -1,6 +1,5 @@
-import { Text } from "@chakra-ui/react";
 import { useAccount } from "@starknet-react/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { cropAddress } from "../../utils/address-utils";
 import ModalConnect from "../layout/modal/ModalConnect";
@@ -10,6 +9,11 @@ import ButtonLink from "./ButtonLink";
 function ButtonConnect() {
   const { address } = useAccount();
   const [isOpen, setOpen] = useState<boolean>(false);
+  useEffect(() => {
+    if (address) {
+      setOpen(false);
+    }
+  }, [address]);
   return (
     <>
       {!address ? (
@@ -17,7 +21,7 @@ function ButtonConnect() {
           Connect
         </ButtonLink>
       ) : (
-        <Text>{cropAddress(address)}</Text>
+        <ButtonLink href="#">{cropAddress(address)}</ButtonLink>
       )}
       <ModalConnect isOpen={isOpen} onClose={() => setOpen(false)} />
     </>
