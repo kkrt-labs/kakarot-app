@@ -1,13 +1,13 @@
+import type { BoxProps } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
 import { useAccount } from "@starknet-react/core";
 import { useEffect, useState } from "react";
 
 import { cropAddress } from "../../utils/address-utils";
-import Menu from "../layout/menu/Menu";
+import MenuAccount from "../layout/menu/MenuAccount";
 import ModalConnect from "../layout/modal/ModalConnect";
 
-import ButtonLink from "./ButtonLink";
-
-function ButtonConnect() {
+function ButtonConnect({ ...rest }: BoxProps) {
   const { address } = useAccount();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
@@ -17,15 +17,24 @@ function ButtonConnect() {
       setModalOpen(false);
     }
   }, [address]);
+
+  const renderAddressMenuTitle = (connectedAddress: string) => {
+    return (
+      <Button>
+        <Text>{cropAddress(connectedAddress)}</Text>
+      </Button>
+    );
+  };
+
   return (
-    <>
+    <Box {...rest}>
       {!address ? (
-        <ButtonLink onClick={() => setModalOpen(true)}>Connect</ButtonLink>
+        <Button onClick={() => setModalOpen(true)}>Connect</Button>
       ) : (
-        <Menu title={cropAddress(address)} />
+        <MenuAccount title={renderAddressMenuTitle(address)} />
       )}
       <ModalConnect isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
-    </>
+    </Box>
   );
 }
 
