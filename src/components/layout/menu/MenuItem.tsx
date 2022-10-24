@@ -9,12 +9,14 @@ function MenuItem({ children, icon, ...rest }: Props) {
   return (
     <Flex
       cursor="pointer"
-      px={4}
-      py={1}
+      px={2}
+      py={2}
       w="full"
+      borderRadius="md"
       justifyContent="space-between"
       transition="all .2s ease-in"
-      _hover={{ color: "blackAlpha.600" }}
+      color="blackAlpha.600"
+      _hover={{ background: "blackAlpha.100" }}
       {...rest}
     >
       <Box>{children}</Box>
