@@ -1,11 +1,4 @@
-import {
-  Box,
-  Collapse,
-  Flex,
-  Text,
-  useDisclosure,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Collapse, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -32,6 +25,7 @@ function StepItem({
   collapseChildren,
 }: Props) {
   const { isOpen, onToggle } = useDisclosure();
+  console.log(step, disabled);
 
   const onClick = () => {
     if (collapseChildren) {
