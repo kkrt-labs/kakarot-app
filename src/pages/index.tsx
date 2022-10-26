@@ -1,51 +1,103 @@
-import { Button, Flex, Text, Textarea } from "@chakra-ui/react";
-import { useAccount } from "@starknet-react/core";
+import { Button, Flex, Text } from "@chakra-ui/react";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import StepItem from "../components/layout/stepper/StepItem";
 import Stepper from "../components/layout/stepper/Stepper";
 import { fetchABI, fetchBytecode } from "../services/api.service";
-
-const ERC20_KAKAROT_ADDR = "0x3814EaBD9cf0E30e766d7cDaF911af6c56A7A5dA";
+import { cropAddress } from "../utils/address-utils";
 
 const Home: NextPage = () => {
   const [bytecode, setBytecode] = useState<string | undefined>(undefined);
   const [abi, setAbi] = useState<string | undefined>(undefined);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [selectedContractAddress, setSelectedContractAddress] = useState<
+    string | undefined
+  >(undefined);
+
+  // Reset bytecode & ABI each time the selected contract changes
+  useEffect(() => {
+    setAbi(undefined);
+    setBytecode(undefined);
+  }, [selectedContractAddress]);
 
   const fetchData = () => {
-    fetchABI(ERC20_KAKAROT_ADDR, "goerli").then((result) => {
-      setAbi(result);
-    });
-    fetchBytecode(ERC20_KAKAROT_ADDR, "goerli").then((result) => {
-      setBytecode(result);
-    });
+    if (selectedContractAddress) {
+      console.log(selectedContractAddress);
+      const promises = [];
+      promises.push(
+        fetchABI(selectedContractAddress, "goerli").then((result) => {
+          setAbi(result);
+        })
+      );
+      promises.push(
+        fetchBytecode(selectedContractAddress, "goerli").then((result) => {
+          setBytecode(result);
+        })
+      );
+      setLoading(true);
+      Promise.all(promises)
+        .then(() => {
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    } else {
+      console.log("Please enter a contract address");
+    }
+  };
+
+  const renderInfoText = (text: string) => {
+    return (
+      <Text
+        fontSize="sm"
+        lineHeight={1.5}
+        letterSpacing={1.5}
+        color="blackAlpha.600"
+      >
+        {text}
+      </Text>
+    );
   };
   return (
-    <Flex h="full" direction="column">
+    <Flex h="full" w="full" direction="column" maxW="100%">
       <Text>
         <b>Kakarot</b>
       </Text>
-      <Text>
-        <b>ERC-20 Kakrot (Goerli)</b> {ERC20_KAKAROT_ADDR}
-      </Text>
-      <Stepper />
-      <Button onClick={fetchData}>Fetch</Button>
-      <Text>
-        <b>Bytecode</b>
-      </Text>
-      <Textarea
-        contentEditable={false}
-        value={bytecode}
-        placeholder="Wait for fetching..."
-      />
-      <Text>
-        <b>ABI</b>
-      </Text>
-      <Textarea
-        contentEditable={false}
-        value={abi}
-        placeholder="Wait for fetching..."
-      />
+      <Stepper onFinish={setSelectedContractAddress} />
+      <Button disabled={!selectedContractAddress} onClick={fetchData}>
+        Fetch
+      </Button>
+      {isLoading ? (
+        <FontAwesomeIcon icon={solid("circle-notch")} spin />
+      ) : (
+        <>
+          {selectedContractAddress && bytecode && (
+            <StepItem
+              title="Bytecode"
+              isDone
+              step={2}
+              collapseChildren={renderInfoText(bytecode)}
+            >
+              {`Bytecode of ${cropAddress(selectedContractAddress)}`}
+            </StepItem>
+          )}
+          {selectedContractAddress && abi && (
+            <StepItem
+              title="ABI"
+              isDone
+              step={2}
+              collapseChildren={renderInfoText(abi)}
+            >
+              {`ABI of ${cropAddress(selectedContractAddress)}`}
+            </StepItem>
+          )}
+        </>
+      )}
     </Flex>
   );
 };

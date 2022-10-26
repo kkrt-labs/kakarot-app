@@ -18,7 +18,6 @@ function MenuAccount({ title }: Props) {
       <MenuList fontSize="sm" px={2}>
         <MenuItem
           onClick={() => {
-            console.log("coucou");
             disconnect();
           }}
           icon={<FontAwesomeIcon icon={solid("arrow-right-from-bracket")} />}

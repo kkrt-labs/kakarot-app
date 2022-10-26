@@ -1,4 +1,11 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Collapse,
+  Flex,
+  Text,
+  useDisclosure,
+  VStack,
+} from "@chakra-ui/react";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -14,7 +21,7 @@ interface Props {
   step: number;
   disabled?: boolean;
   children: string | JSX.Element;
-  expandableChildren?: JSX.Element;
+  collapseChildren?: JSX.Element;
 }
 function StepItem({
   title,
@@ -22,14 +29,31 @@ function StepItem({
   step,
   disabled,
   children,
-  expandableChildren,
+  collapseChildren,
 }: Props) {
+  const { isOpen, onToggle } = useDisclosure();
+
+  const onClick = () => {
+    if (collapseChildren) {
+      onToggle();
+    }
+  };
   const renderChildItem = () => {
     if (typeof children === "string") {
       return (
-        <Text fontSize="md" fontWeight="bold" color="blackAlpha.600">
-          {children}
-        </Text>
+        <Flex
+          onClick={onClick}
+          cursor={collapseChildren ? "pointer" : "inherit"}
+          justify="space-between"
+          align="center"
+          w="full"
+          color="blackAlpha.600"
+        >
+          <Text fontSize="md" fontWeight="bold">
+            {children}
+          </Text>
+          {collapseChildren && <FontAwesomeIcon icon={solid("chevron-down")} />}
+        </Flex>
       );
     }
     return children;
@@ -48,13 +72,24 @@ function StepItem({
         borderColor="blackAlpha.300"
         borderRadius="md"
         align="center"
+        direction="column"
+        pr={4}
       >
-        <Flex justify="center" align="center" px={4}>
-          <Box color={isDone ? "success.500" : "error.900"}>
-            <FontAwesomeIcon icon={isDone ? icons.check : icons.info} />
-          </Box>
+        <Flex direction="row" w="full">
+          <Flex justify="center" align="center" px={4}>
+            <Box color={isDone ? "success.500" : "error.900"}>
+              <FontAwesomeIcon icon={isDone ? icons.check : icons.info} />
+            </Box>
+          </Flex>
+          {renderChildItem()}
         </Flex>
-        {renderChildItem()}
+        {collapseChildren && (
+          <Collapse in={isOpen} animateOpacity style={{ maxWidth: "100%" }}>
+            <Box pl={12} mt={4}>
+              {collapseChildren}
+            </Box>
+          </Collapse>
+        )}
       </Flex>
     </Flex>
   );

@@ -2,35 +2,52 @@ import { Box, Button, Flex, Input } from "@chakra-ui/react";
 import { useAccount } from "@starknet-react/core";
 import { useEffect, useState } from "react";
 
-import { isAddress } from "../../../utils/address-utils";
+import { cropAddress, isAddress } from "../../../utils/address-utils";
 
 import StepItem from "./StepItem";
 
-function Stepper() {
-  const { address } = useAccount();
-  const [step, setStep] = useState<number>(0);
-  const [contractAddress, setContractAddress] = useState<string>("");
+enum STEPS {
+  CONNECT_WALLET,
+  L1_CONTRACT_ADDRESS,
+  FINISH,
+}
 
-  // TODO Find a better way to manage steps
+interface StepperProps {
+  onFinish?: (contractAddress: string | undefined) => void;
+}
+function Stepper({ onFinish }: StepperProps) {
+  const { address } = useAccount();
+  const [step, setStep] = useState<number>(STEPS.CONNECT_WALLET);
+  const [contractAddress, setContractAddress] = useState<string | undefined>(
+    undefined
+  );
+
   // Once address is connected, increase step
   useEffect(() => {
     if (address) {
-      setStep(1);
+      setStep(STEPS.L1_CONTRACT_ADDRESS);
     } else {
-      setStep(0);
+      setStep(STEPS.CONNECT_WALLET);
     }
   }, [address]);
 
   // Once contractAddress is ok, increase step
   useEffect(() => {
-    if (contractAddress) {
+    if (contractAddress !== undefined) {
       if (isAddress(contractAddress)) {
-        setStep(2);
+        setStep(STEPS.FINISH);
       } else {
-        setStep(1);
+        setStep(STEPS.L1_CONTRACT_ADDRESS);
       }
     }
   }, [contractAddress]);
+
+  useEffect(() => {
+    if (onFinish) {
+      console.log(step === STEPS.FINISH ? contractAddress : undefined);
+      onFinish(step === STEPS.FINISH ? contractAddress : undefined);
+    }
+  }, [onFinish, step, contractAddress]);
 
   return (
     <Flex direction="column">
@@ -42,7 +59,7 @@ function Stepper() {
           isDone={!!address}
         >
           {address ? (
-            `Connected (${address})`
+            `Connected (${cropAddress(address)})`
           ) : (
             <Button>Connect to wallet</Button>
           )}
@@ -51,23 +68,22 @@ function Stepper() {
       {/* Find L1 contract */}
       <Box my={4}>
         <StepItem
-          step={0}
+          step={1}
           title="Find an EVM contract to fetch"
-          isDone={false}
-          disabled={step < 1}
+          isDone={step > STEPS.L1_CONTRACT_ADDRESS}
+          disabled={step < STEPS.L1_CONTRACT_ADDRESS}
         >
-          {step < 1 ? (
+          {step < STEPS.L1_CONTRACT_ADDRESS ? (
             "Wait..."
           ) : (
             <Input
               placeholder="Contract address"
-              value={contractAddress}
+              value={contractAddress || ""}
               onChange={(event) => setContractAddress(event.target.value)}
             />
           )}
         </StepItem>
       </Box>
-      {step === 2 ? "Done" : "Not done"}
     </Flex>
   );
 }
