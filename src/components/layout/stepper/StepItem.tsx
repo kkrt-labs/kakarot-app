@@ -25,7 +25,7 @@ function StepItem({
   collapseChildren,
 }: Props) {
   const { isOpen, onToggle } = useDisclosure();
-  console.log(step, disabled);
+  // console.log(step, disabled);
 
   const onClick = () => {
     if (collapseChildren) {

@@ -16,7 +16,6 @@ const Home: NextPage = () => {
   const [selectedContractAddress, setSelectedContractAddress] = useState<
     string | undefined
   >(undefined);
-
   // Reset bytecode & ABI each time the selected contract changes
   useEffect(() => {
     setAbi(undefined);

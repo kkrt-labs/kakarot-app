@@ -8,9 +8,9 @@ interface Props {
 }
 function Layout({ children }: Props) {
   return (
-    <Flex h="full" direction="column" justify="space-between">
+    <Flex h="full" direction="column" justify="flex-start">
       <Header />
-      <Container h="full" w="full" pt={8}>
+      <Container w="full" pt={16} flex={1}>
         <Flex flex={1}>{children}</Flex>
       </Container>
       <Footer />

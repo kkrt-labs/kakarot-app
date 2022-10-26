@@ -44,7 +44,6 @@ function Stepper({ onFinish }: StepperProps) {
 
   useEffect(() => {
     if (onFinish) {
-      console.log(step === STEPS.FINISH ? contractAddress : undefined);
       onFinish(step === STEPS.FINISH ? contractAddress : undefined);
     }
   }, [onFinish, step, contractAddress]);
